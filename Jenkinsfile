@@ -1,4 +1,3 @@
-
 pipeline {
   agent any
   stages {
@@ -19,14 +18,14 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'mvn clean test'
+        sh 'mvn test'
         junit(testResults: 'target/surefire-reports/TEST-*.xml', keepProperties: true, keepTestNames: true)
       }
     }
     
     stage('Local Deployment') {
       steps {
-        sh "java -jar target/hello-demo-*.jar > /dev/null &"
+        sh """ java -jar target/hello-demo-*.jar > /dev/null & """  
       }
     }
     
