@@ -1,3 +1,4 @@
+
 pipeline {
   agent any
   stages {
@@ -15,16 +16,23 @@ pipeline {
         archiveArtifacts 'target/hello-demo-*.jar'
       }
     }
-
-    stage('Test') {
+    stage('Local Deployment') {
       steps {
-        sh 'mvn clean test'
-        junit(testResults: 'target/surefire-reports/TEST-*.xml', keepProperties: true, keepTestNames: true)
+        sh "java -jar target/hello-demo-*.jar > /dev/null &"
       }
     }
+    
+    stage('Integration Testing') {
+      steps {
+        sh 'sleep 5s'
+        sh 'curl -s http://localhost:6767/hello'
+      }
+    }
+
 
   }
   tools {
     maven 'M396'
   }
+
 }
