@@ -16,6 +16,14 @@ pipeline {
         archiveArtifacts 'target/hello-demo-*.jar'
       }
     }
+
+    stage('Test') {
+      steps {
+        sh 'mvn clean test'
+        junit(testResults: 'target/surefire-reports/TEST-*.xml', keepProperties: true, keepTestNames: true)
+      }
+    }
+    
     stage('Local Deployment') {
       steps {
         sh "java -jar target/hello-demo-*.jar > /dev/null &"
