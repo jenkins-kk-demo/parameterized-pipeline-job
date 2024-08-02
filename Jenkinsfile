@@ -10,7 +10,6 @@ pipeline {
 
     stage('Build') {
       steps {
-        git(branch: 'main', url: 'http://localhost:3000/siddharth/jenkins-hello-world.git')
         sh 'mvn clean package -DskipTests=true'
         archiveArtifacts 'target/hello-demo-*.jar'
       }
@@ -25,7 +24,7 @@ pipeline {
     
     stage('Local Deployment') {
       steps {
-        sh """ java -jar target/hello-demo-*.jar > /dev/null & """  
+        sh """ java -jar target/hello-demo-*.jar > /dev/null & """
       }
     }
     
